@@ -1,5 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+  TouchableOpacity,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   listItem: {
@@ -10,10 +16,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const listItem = props => (
-  <View style={styles.listItem}>
-    <Text>{props.placeName}</Text>
-  </View>
+const listItem = props => (    
+  <TouchableOpacity onPress={props.onItemPressed}>
+    <View style={styles.listItem}>
+      <Text>{props.placeName}</Text>
+    </View>
+  </TouchableOpacity>
 );
-
 export default listItem;

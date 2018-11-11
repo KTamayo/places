@@ -34,11 +34,20 @@ export default class App extends Component {
     });
   }
 
+  placeDeletedHandler = (index) => {
+    let newPlaces = [...this.state.places];
+    newPlaces.splice(index, 1);
+    this.setState({ places: newPlaces });
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <PlaceInput onPlaceAdded={this.placeAddedHandler} />
-        <PlaceList places={this.state.places} />
+        <PlaceList
+          places={this.state.places}
+          onItemDeleted={this.placeDeletedHandler}
+        />
       </View>
     );
   }

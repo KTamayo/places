@@ -11,11 +11,13 @@ const styles = StyleSheet.create({
 
 const placeList = (props) => {
   const placesOutput = props.places.map((place, i) => (
-    <ListItem key={i} placeName={place} />
+    <ListItem
+      key={i}
+      placeName={place}
+      onItemPressed={() => props.onItemDeleted(i)}
+    />
   ));
-  return (
-    <View style={styles.listContainer}>{placesOutput}</View>
-  );
+  return <View style={styles.listContainer}>{placesOutput}</View>;
 };
 
 export default placeList;
