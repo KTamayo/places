@@ -6,6 +6,7 @@ import {
 
 import PlaceInput from './src/components/PlaceInput/PlaceInput';
 import PlaceList from './src/components/PlaceList/PlaceList';
+import PlaceDetail from './src/components/PlaceDetail/PlaceDetail';
 import placeImage from './src/assets/tj_v_roque.jpg';
 
 const styles = StyleSheet.create({
@@ -21,6 +22,7 @@ const styles = StyleSheet.create({
 export default class App extends Component {
   state = {
     places: [],
+    selectedPlace: null,
   }
 
   placeAddedHandler = (placeName) => {
@@ -32,30 +34,53 @@ export default class App extends Component {
       return {
         places: prevState.places.concat({
           key: Math.random(),
-          value: placeName,
+          name: placeName,
           image: placeImage,
         }),
       };
     });
   }
 
-  placeDeletedHandler = (key) => {
+  placeSelectedHandler = (key) => {
+    this.setState((prevState) => {
+      return {
+        selectedPlace: prevState.places.find( (place) => {
+          return place.key === key;
+        }),
+      };
+    });
+    
+  };
+
+  placeDeletedHandler = () => {
     this.setState((prevState) => {
       return {
         places: prevState.places.filter((place) => {
-          return place.key !== key;
-        })
+          return place.key !== prevState.selectedPlace.key;
+        }),
+        selectedPlace: null,
       };
     });
   };
 
+  modalClosedHandler = () => {
+    this.setState({
+      selectedPlace: null,
+    });
+  }
+
   render() {
     return (
       <View style={styles.container}>
+        <PlaceDetail
+        selectedPlace={this.state.selectedPlace}
+        onItemDeleted={this.placeDeletedHandler}
+        onModalClosed={this.modalClosedHandler}
+      />
         <PlaceInput onPlaceAdded={this.placeAddedHandler} />
         <PlaceList
           places={this.state.places}
-          onItemDeleted={this.placeDeletedHandler}
+          onItemSelected={this.placeSelectedHandler}
         />
       </View>
     );
