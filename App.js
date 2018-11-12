@@ -6,6 +6,7 @@ import {
 
 import PlaceInput from './src/components/PlaceInput/PlaceInput';
 import PlaceList from './src/components/PlaceList/PlaceList';
+import placeImage from './src/assets/tj_v_roque.jpg';
 
 const styles = StyleSheet.create({
   container: {
@@ -29,16 +30,24 @@ export default class App extends Component {
         return;
       }
       return {
-        places: prevState.places.concat(placeName)
+        places: prevState.places.concat({
+          key: Math.random(),
+          value: placeName,
+          image: placeImage,
+        }),
       };
     });
   }
 
-  placeDeletedHandler = (index) => {
-    let newPlaces = [...this.state.places];
-    newPlaces.splice(index, 1);
-    this.setState({ places: newPlaces });
-  }
+  placeDeletedHandler = (key) => {
+    this.setState((prevState) => {
+      return {
+        places: prevState.places.filter((place) => {
+          return place.key !== key;
+        })
+      };
+    });
+  };
 
   render() {
     return (
