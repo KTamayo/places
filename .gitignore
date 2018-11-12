@@ -63,3 +63,6 @@ buck-out/
 
 # Watchman
 .watchmanconfig
+
+# Assets
+src/assets/
